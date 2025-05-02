@@ -8,10 +8,20 @@ import { MailModule } from './mail/mail.module';
 // import { AdminModule } from "./admin/admin.module";
 import { Admin } from "./admin/models/admin.model";
 import { BotModule } from './bot/bot.module';
+import { TelegrafModule } from "nestjs-telegraf";
+import { BOT_NAME } from "./app.constance";
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ".env", isGlobal: true }),
+    TelegrafModule.forRootAsync({
+      botName: BOT_NAME,
+      useFactory:()=>({
+        token: process.env.BOT_TOKEN!,
+        middleweres: [],
+        include: [BotModule],
+      })
+    }),
     SequelizeModule.forRoot({
       dialect: "postgres",
       host: process.env.PG_HOST,
@@ -19,7 +29,7 @@ import { BotModule } from './bot/bot.module';
       username: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DB,
-      models: [User,Admin],
+      models: [User, Admin],
       autoLoadModels: true,
       sync: { alter: true },
       logging: false,
