@@ -3,9 +3,9 @@ import { Table, Model, Column, DataType, ForeignKey, HasMany, BelongsTo } from "
 
 interface IAdminCreationAttr {
   full_name: string;
+  username: string;
   email: string;
   password: string;
-  roleId: number;
 }
 
 @Table({ tableName: "admin", timestamps: false })
@@ -17,11 +17,15 @@ export class Admin extends Model<Admin, IAdminCreationAttr> {
   })
   declare id: number;
 
-  
   @Column({
     type: DataType.STRING(100),
   })
   declare full_name: string;
+
+  @Column({
+    type: DataType.STRING(100),
+  })
+  declare username: string;
 
   @Column({
     type: DataType.STRING(100),
@@ -42,15 +46,11 @@ export class Admin extends Model<Admin, IAdminCreationAttr> {
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
+  declare is_creator: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
   declare is_active: boolean;
-
-  // // @ForeignKey(() => Role)
-  // @Column({
-  //   type: DataType.INTEGER,
-  //   onDelete: "SET NULL",
-  // })
-  // declare roleId: number;
-
-  // @BelongsTo(() => Role)
-  // role: Role;
 }

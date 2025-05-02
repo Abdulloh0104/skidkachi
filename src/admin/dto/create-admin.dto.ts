@@ -6,14 +6,21 @@ export class CreateAdminDto {
     example: "user1",
     description: "Foydalanuvchi ismi familiyasi",
   })
-  @IsString()
+  // @IsString()
   full_name: string;
+
+  @ApiProperty({
+    example: "user11",
+    description: "Foydalanuvchi username",
+  })
+  // @IsString()
+  username: string;
 
   @ApiProperty({
     example: "user1@amail.uz",
     description: "Foydalanuvchi emaili",
   })
-  @IsEmail()
+  // @IsEmail()
   @IsNotEmpty({
     message: "No name is not allowed",
   })
@@ -23,16 +30,10 @@ export class CreateAdminDto {
     example: "qwerty",
     description: "Foydalanuvchi paroli",
   })
-  @IsString()
+  // @IsString()
   @IsNotEmpty({
     message: "No name is not allowed",
   })
   password: string;
 
-  @ApiProperty({
-    example: "qwerty",
-    description: "Foydalanuvchi paroli",
-  })
-  @IsNumber()
-  roleId: number;
 }
