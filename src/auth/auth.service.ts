@@ -12,16 +12,15 @@ import { User } from "../users/models/user.model";
 import { CreateUserDto } from "../users/dto/create-user.dto";
 import { SignInDto } from "./dto/sign-in.dto";
 import * as bcrypt from "bcrypt";
-import { max } from "class-validator";
 import { Response } from "express";
-import { Admin } from "../admin/models/admin.model";
+// import { Admin } from "../admin/models/admin.model";
 import { AdminService } from "../admin/admin.service";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
-    private readonly adminService: AdminService,
+    // private readonly adminService: AdminService,
     private readonly jwtService: JwtService
   ) {}
 

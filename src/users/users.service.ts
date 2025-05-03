@@ -56,7 +56,7 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userModel.update(updateUserDto, { where: { id } });
+    return this.userModel.update(updateUserDto, { where: { id },returning:true });
   }
 
   remove(id: number) {

@@ -2,9 +2,11 @@ import { UUIDV4 } from "sequelize";
 import {
   Column,
   DataType,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
+import { Store } from "../../store/models/store.model";
 
 interface IUserCreationAttr {
   name: string;
@@ -75,4 +77,7 @@ export class User extends Model<User, IUserCreationAttr> {
     defaultValue: DataType.UUIDV4(),
   })
   declare activation_link: string;
+
+@HasMany(() => Store)
+  stores: Store[];
 }

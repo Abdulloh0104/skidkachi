@@ -18,7 +18,7 @@ export class BotUpdate {
 
   @Hears("hi")
   async onHearsHi(@Ctx() ctx: Context) {
-    await ctx.reply("HEy rthere");
+    await ctx.reply("Hey there");
   }
 
   @Command("help")
