@@ -1,8 +1,10 @@
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -10,6 +12,9 @@ import { User } from "../../users/models/user.model";
 import { Region } from "../../region/models/region.model";
 import { District } from "../../district/models/district.model";
 import { Status } from "../../status/models/status.model";
+import { SocialMediaType } from "../../social-media-type/models/social-media-type.model";
+import { StoreSocialLink } from "../../store-social-link/models/store-social-link.model";
+import { Discount } from "../../discount/models/discount.model";
 
 interface IStoreCreationAttr {
   name: string;
@@ -27,7 +32,7 @@ interface IStoreCreationAttr {
 }
 
 @Table({ tableName: "store", timestamps: false })
-export class Store extends Model<Store,IStoreCreationAttr> {
+export class Store extends Model<Store, IStoreCreationAttr> {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,
@@ -119,4 +124,10 @@ export class Store extends Model<Store,IStoreCreationAttr> {
 
   @BelongsTo(() => Status)
   status: Status;
+
+  @BelongsToMany(() => SocialMediaType, () => StoreSocialLink)
+  SocialMediaType: SocialMediaType[];
+
+  @HasMany(() => Discount)
+  discount: Discount[];
 }

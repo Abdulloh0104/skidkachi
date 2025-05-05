@@ -27,7 +27,6 @@ export class Status extends Model<Status, IStatusCreationAttr> {
   })
   declare description: string;
 
-@HasMany(() => Store)
+  @HasMany(() => Store)
   stores: Store[];
 }
-

@@ -49,7 +49,8 @@ export class StatusController {
     type: Status,
   })
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateStatusDto: UpdateStatusDto) {
+  update(@Param("id") id: string,
+  @Body() updateStatusDto: UpdateStatusDto) {
     return this.statusService.update(+id, updateStatusDto);
   }
 

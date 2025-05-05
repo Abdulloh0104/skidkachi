@@ -10,12 +10,16 @@ import { User } from "./models/user.model";
 
 import * as bcrypt from "bcrypt";
 import { MailService } from "../mail/mail.service";
+import { PhoneUserDto } from "./dto/phone-user.dto";
+import * as otpGenerator from "otp-generator";
+import { BotService } from "../bot/bot.service";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User) private readonly userModel: typeof User,
-    private readonly mailService: MailService
+    private readonly mailService: MailService,
+    private readonly botService:BotService
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -56,7 +60,10 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userModel.update(updateUserDto, { where: { id },returning:true });
+    return this.userModel.update(updateUserDto, {
+      where: { id },
+      returning: true,
+    });
   }
 
   remove(id: number) {
@@ -92,5 +99,24 @@ export class UsersService {
       message: "User activated successfully",
       is_active: updatedUser[1][0].is_active,
     };
+  }
+
+  async newOtp(phoneUserDto: PhoneUserDto) {
+    const phone_number = phoneUserDto.phone;
+
+    const otp = otpGenerator.generate(4, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
+    //--------------------BOT----------------------
+    const isSend = await this.botService.sendOtp(phone_number,otp)
+    if(!isSend){
+      throw new BadRequestException("Avval botdan ro'yxatdan o't")
+    }else{
+      return {message:"OTP botga yuborildi"}
+    }
+    //--------------------SMS----------------------
+    //--------------------EMAIL----------------------
   }
 }
