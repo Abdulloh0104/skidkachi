@@ -52,4 +52,10 @@ export class CreateDiscountDto {
     description: "Id number of type",
   })
   typeId: number;
+
+  @ApiProperty({
+    example: "User ning Id raqami",
+    description: "Id number of user",
+  })
+  userId: number;
 }

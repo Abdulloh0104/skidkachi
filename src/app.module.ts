@@ -24,11 +24,21 @@ import { StoreSocialLinkModule } from "./store-social-link/store-social-link.mod
 import { StoreSocialLink } from "./store-social-link/models/store-social-link.model";
 import { TypesModule } from "./types/types.module";
 import { Types } from "./types/models/type.model";
-import { CategoryModule } from './category/category.module';
+import { CategoryModule } from "./category/category.module";
 import { Category } from "./category/models/category.model";
-import { DiscountModule } from './discount/discount.module';
+import { DiscountModule } from "./discount/discount.module";
 import { Bot } from "./bot/model/bot.model";
 import { Discount } from "./discount/models/discount.model";
+import { MediaModule } from "./media/media.module";
+import { Media } from "./media/models/media.model";
+import { Otp } from "./users/models/otp.model";
+import { Address } from "./bot/model/address.model";
+import { AdsModule } from "./ads/ads.module";
+import { Ad } from "./ads/models/ad.model";
+import { Favourite } from "./users/models/favourite.model";
+import { ReviewModule } from './review/review.module';
+import { Review } from "./review/models/review.model";
+import { StoreSubscribers } from "./store/models/storeSubscribers.model";
 
 @Module({
   imports: [
@@ -60,7 +70,14 @@ import { Discount } from "./discount/models/discount.model";
         Types,
         Category,
         Bot,
-        Discount
+        Discount,
+        Media,
+        Otp,
+        Address,
+        Ad,
+        Favourite,
+        Review,
+        StoreSubscribers,
       ],
       autoLoadModels: true,
       sync: { alter: true },
@@ -80,6 +97,9 @@ import { Discount } from "./discount/models/discount.model";
     TypesModule,
     CategoryModule,
     DiscountModule,
+    MediaModule,
+    AdsModule,
+    ReviewModule,
   ],
   controllers: [],
   providers: [],

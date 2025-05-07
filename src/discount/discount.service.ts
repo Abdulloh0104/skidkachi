@@ -1,17 +1,27 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateDiscountDto } from "./dto/create-discount.dto";
 import { UpdateDiscountDto } from "./dto/update-discount.dto";
 import { InjectModel } from "@nestjs/sequelize";
 import { Discount } from "./models/discount.model";
+import { UsersService } from "../users/users.service";
 
 @Injectable()
 export class DiscountService {
   constructor(
-    @InjectModel(Discount) private readonly discountModel: typeof Discount
+    @InjectModel(Discount) private readonly discountModel: typeof Discount,
+    private readonly userService: UsersService
   ) {}
 
-  create(createDiscountDto: CreateDiscountDto) {
-    return this.discountModel.create(createDiscountDto);
+  async create(createDiscountDto: CreateDiscountDto) {
+    const newDiscount = await this.discountModel.create(createDiscountDto);
+    const user = await this.userService.findOne(createDiscountDto.userId);
+    if (!user) {
+      throw new NotFoundException("Bunday user topilmadi");
+    }
+    await newDiscount.$set("favourites", [user.id]); // user-role table
+    newDiscount.favourites = [user];
+    await newDiscount.save();
+    return newDiscount;
   }
 
   findAll() {
@@ -23,14 +33,17 @@ export class DiscountService {
   }
 
   update(id: number, updateDiscountDto: UpdateDiscountDto) {
-    return this.discountModel.update(updateDiscountDto,{where:{id},returning:true})
+    return this.discountModel.update(updateDiscountDto, {
+      where: { id },
+      returning: true,
+    });
   }
 
   async remove(id: number) {
-    const deleted = await this.discountModel.destroy({where:{id}})
-    if(deleted > 0){
-      return {message: `${id}-discount deleted`}
+    const deleted = await this.discountModel.destroy({ where: { id } });
+    if (deleted > 0) {
+      return { message: `${id}-discount deleted` };
     }
-      return { message: `Discount was not found` } 
+    return { message: `Discount was not found` };
   }
 }

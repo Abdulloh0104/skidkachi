@@ -1,8 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import {
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  DataType,
+  ForeignKey,
+  HasMany,
+  Model,
+  Table,
+} from "sequelize-typescript";
 import { Store } from "../../store/models/store.model";
 import { Category } from "../../category/models/category.model";
 import { Types } from "../../types/models/type.model";
+import { User } from "../../users/models/user.model";
+import { Favourite } from "../../users/models/favourite.model";
+import { Review } from "../../review/models/review.model";
 
 interface IDiscountCreationAttr {
   title: string;
@@ -15,6 +27,7 @@ interface IDiscountCreationAttr {
   storeId: number;
   categoryId: number;
   typeId: number;
+  userId: number;
 }
 
 @Table({ tableName: "discount", timestamps: false })
@@ -93,6 +106,7 @@ export class Discount extends Model<Discount, IDiscountCreationAttr> {
   })
   @Column({
     type: DataType.BOOLEAN,
+    defaultValue: false,
   })
   declare is_active: boolean;
   //--------------
@@ -139,5 +153,10 @@ export class Discount extends Model<Discount, IDiscountCreationAttr> {
 
   @BelongsTo(() => Category)
   types: Types;
-  b;
+
+  @BelongsToMany(() => User, () => Favourite)
+  favourites: User[];
+
+  @HasMany(() => Review)
+  reviews: Review[];
 }

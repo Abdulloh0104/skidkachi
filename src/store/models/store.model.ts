@@ -15,6 +15,7 @@ import { Status } from "../../status/models/status.model";
 import { SocialMediaType } from "../../social-media-type/models/social-media-type.model";
 import { StoreSocialLink } from "../../store-social-link/models/store-social-link.model";
 import { Discount } from "../../discount/models/discount.model";
+import { StoreSubscribers } from "./storeSubscribers.model";
 
 interface IStoreCreationAttr {
   name: string;
@@ -29,6 +30,7 @@ interface IStoreCreationAttr {
   open_time: string;
   close_time: string;
   weekday: number;
+  userId: number;
 }
 
 @Table({ tableName: "store", timestamps: false })
@@ -107,6 +109,11 @@ export class Store extends Model<Store, IStoreCreationAttr> {
   })
   declare districtId: number;
 
+  @Column({
+    type: DataType.INTEGER,
+  })
+  declare userId: number;
+
   @BelongsTo(() => District)
   district: District;
 
@@ -130,4 +137,7 @@ export class Store extends Model<Store, IStoreCreationAttr> {
 
   @HasMany(() => Discount)
   discount: Discount[];
+
+  @BelongsToMany(() => User, () => StoreSubscribers)
+  storeSubscribers: User[];
 }

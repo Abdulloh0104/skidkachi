@@ -1,6 +1,17 @@
 import { UUIDV4 } from "sequelize";
-import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
+  Model,
+  Table,
+} from "sequelize-typescript";
 import { Store } from "../../store/models/store.model";
+import { Discount } from "../../discount/models/discount.model";
+import { Favourite } from "./favourite.model";
+import { StoreSubscribers } from "../../store/models/storeSubscribers.model";
+import { Review } from "../../review/models/review.model";
 
 interface IUserCreationAttr {
   name: string;
@@ -74,4 +85,13 @@ export class User extends Model<User, IUserCreationAttr> {
 
   @HasMany(() => Store)
   stores: Store[];
+
+  @BelongsToMany(() => Discount, () => Favourite)
+  favourites: Discount[];
+
+  @BelongsToMany(() => Store, () => StoreSubscribers)
+  storeSubscribers: Store[];
+
+  @HasMany(() => Review)
+  reviews: Review[];
 }

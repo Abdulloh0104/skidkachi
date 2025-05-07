@@ -21,13 +21,29 @@ export class BotUpdate {
 
   @On("contact")
   async onContact(@Ctx() ctx: Context) {
-    return this.botService.onContact(ctx)
+    return this.botService.onContact(ctx);
   }
 
   @Command("stop")
-  async onStop(@Ctx() ctx:Context){
-    return this.botService.onStop(ctx)
+  async onStop(@Ctx() ctx: Context) {
+    return this.botService.onStop(ctx);
   }
+
+  @On("text")
+  async onText(@Ctx() ctx: Context) {
+   return this.botService.onText(ctx)
+  }
+  // @On("text")
+  // async onText(@Ctx() ctx: Context) {
+  //   console.log(ctx);
+  //   if ("text" in ctx.message!) {
+  //     if (ctx.message.text == "hi") {
+  //       await ctx.replyWithHTML("<b>Hello</b>");
+  //     } else {
+  //       await ctx.replyWithHTML(ctx.message.text);
+  //     }
+  //   }
+  // }
 
   // @Hears("hi")
   // async onHearsHi(@Ctx() ctx: Context) {
@@ -93,17 +109,7 @@ export class BotUpdate {
   //     await ctx.reply(`${id} Button bosildi`);
   //   }
   // }
-  // @On("text")
-  // async onText(@Ctx() ctx: Context) {
-  //   console.log(ctx);
-  //   if ("text" in ctx.message!) {
-  //     if (ctx.message.text == "hi") {
-  //       await ctx.replyWithHTML("<b>Hello</b>");
-  //     } else {
-  //       await ctx.replyWithHTML(ctx.message.text);
-  //     }
-  //   }
-  // }
+  //
 
   // @On("photo")
   // async onPhoto(@Ctx() ctx: Context) {
@@ -186,7 +192,6 @@ export class BotUpdate {
   // async onHearsButtonBir(@Ctx() ctx: Context) {
   //   await ctx.reply("Main Button1 bosildi");
   // }
-
   @On("message")
   async onMessage(@Ctx() ctx: Context) {
     console.log(ctx.botInfo);

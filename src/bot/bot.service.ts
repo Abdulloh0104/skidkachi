@@ -86,7 +86,11 @@ export class BotService {
           }
         );
       } else if ("contact" in ctx.message!) {
-        user.phone_number = ctx.message.contact.phone_number;
+        let phone = ctx.message.contact.phone_number;
+        if (phone[0] != "+") {
+          phone = "+" + phone;
+        }
+        user.phone_number = phone;
         user.status = true;
         await user.save();
         await ctx.replyWithHTML(`Tabriklayman ro'yxatdan o'tdingiz`, {
@@ -141,6 +145,23 @@ export class BotService {
       }
     } catch (error) {
       console.log(`error on SendOTP`, error);
+    }
+  }
+
+  async onText(ctx: Context) {
+    try {
+      const user_id = ctx.from?.id;
+      const user = await this.botModel.findByPk(user_id);
+      if (!user) {
+        await ctx.replyWithHTML(`Iltimos, <b>Start</b> tugmasini bosing`, {
+          ...Markup.keyboard([["/start"]])
+            .oneTime()
+            .resize(),
+        });
+      }
+      await ctx.replyWithHTML(`Shu yerga keldik`);
+    } catch (error) {
+      console.log(`error on onStop`, error);
     }
   }
 }

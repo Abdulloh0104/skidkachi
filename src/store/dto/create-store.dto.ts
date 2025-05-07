@@ -59,6 +59,12 @@ export class CreateStoreDto {
   statusId: number;
 
   @ApiProperty({
+    example: "4",
+    description: "Id number of User",
+  })
+  userId: number;
+
+  @ApiProperty({
     example: "08:00:00",
     description: "Start of working hour",
   })
