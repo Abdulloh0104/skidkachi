@@ -1,3 +1,3 @@
 
 
-export const BOT_NAME = 'Skidkachi bot'
+export const BOT_NAME = 'Hospital bot'

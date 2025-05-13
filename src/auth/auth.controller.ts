@@ -1,12 +1,10 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   Param,
   ParseIntPipe,
   Post,
-  Req,
   Res,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
